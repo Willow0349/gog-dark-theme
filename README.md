@@ -1,0 +1,1 @@
+WIP tampermokey script for dark theme on gog.com
