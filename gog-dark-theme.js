@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Dark Theme for gog.com
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  Changes light theme to dark theme on gog.com
 // @author       Willow0349 (Github: https://github.com/Willow0349)
 // @match        https://*.gog.com/*
@@ -24,16 +24,16 @@
 
         document.body.classList.remove('light-theme');
         document.body.classList.add('dark-theme');
-    } else {
+    } else if (document.body.classList.contains('productcard')){
         // Manually change css style for dark theme
         console.log("Page does not supports dark theme");
         document.querySelector('.productcard-basics__title').style.color = 'rgb(242, 242, 242)';
 
 
-        var excludedElements = ['.productcard-player__container', '.product-actions-price__discount', '.wishlist-button', '.wishlist-button__state-on-wishlist', '.cart-button__state-owned','.go-to-library-button__wrapper', '.wishlist-button__wrapper', '.product-actions__lowest-price-before-discount', '._price', '.product-tile__wishlist', '.product-tile__label', '.product-tile__label-icon', '.ic-svg', '.cart-button__state-in-cart', '.cart-button__wrapper', '.productcard-player__logo', '.howlongtobeat-box__time', '.howlongtobeat-box__name', '.product-tile__price', '.product-tile__price-discounted', '.product-tile__prices-inner'];
+        var excludedElements = ['.productcard-player__container', '.menu-main', '.menu__container', '.menu-link', '.menu-tray', '.gog-gallery', '.wishlist-button__state-default', '.gog-gallery__shadow', '.in-dev-banner__bullet', '.in-dev-banner', '.in-dev-banner__header', '.in-dev-banner__graphic-icon', '.in-dev-banner__graphic', '.in-dev-banner__bullet', '.gog-gallery__layer', '.gog-gallery__display-wrapper', '.gog-gallery__slider', '.cart-button__state-default', '.goodies__link', '.product-actions__playable-after', '.product-actions__playable-after-date', '.edition-picker__label', '.edition-picker__selected-edition', '.edition-picker__trigger-icon', '.menu-item', '.product-actions-price__discount', '.wishlist-button', '.wishlist-button__state-on-wishlist', '.cart-button__state-owned','.go-to-library-button__wrapper', '.wishlist-button__wrapper', '.product-actions__lowest-price-before-discount', '._price', '.product-tile__wishlist', '.product-tile__label', '.product-tile__label-icon', '.ic-svg', '.cart-button__state-in-cart', '.cart-button__wrapper', '.productcard-player__logo', '.howlongtobeat-box__time', '.howlongtobeat-box__name', '.product-tile__price', '.product-tile__price-discounted', '.product-tile__prices-inner'];
 
         // Construct the CSS selector string to exclude the specified classes
-        var selector = '*:not(' + excludedElements.join('):not(') + ')';
+        var selector = '*:not(' + excludedElements.join('):not(') + '):not(a)';
 
         // Get all elements except those with the specified classes
         var filteredElements = document.querySelectorAll(selector);
@@ -54,7 +54,7 @@
             element.style.color = 'rgb(237, 237, 237)';
         });
 
-        var specialElements = ['.howlongtobeat-box__time', '.howlongtobeat-box__name'];
+        var specialElements = ['.howlongtobeat-box__time', '.howlongtobeat-box__name', '.product-actions__offer-ends-in'];
 
         var filteredSpecialElements = document.querySelectorAll(specialElements);
 
@@ -63,5 +63,50 @@
             element.style.color = 'rgb(237, 237, 237)';
         });
 
+        var whiteElements = ['.edition-picker__trigger', '.product-actions__playable-after', '.product-actions__playable-after-date', '.go-to-library-button'];
+
+        var filteredWhiteElements = document.querySelectorAll(whiteElements);
+
+        // Change the text colors of special elements
+        filteredWhiteElements.forEach(function(element) {
+            element.style.color = 'rgb(33, 33, 33)';
+        });
+    } else {
+        // Select the div with class "content cf"
+        var contentDiv = document.querySelector('.content.cf');
+
+        // Change its background color
+        contentDiv.style.backgroundColor = 'rgb(33, 33, 33)';
+
+        var greyElements = document.querySelectorAll('.product-row__text, .filters__section, .product-row__picture');
+
+        // Loop through each element and set the background color
+        greyElements.forEach(function(element) {
+            element.style.backgroundColor = 'rgb(48, 48, 48)';
+        });
+
+        // Select all elements with class "product-title"
+        var productTitleElements = document.querySelectorAll('.product-title');
+
+        // Loop through each element and set the color
+        productTitleElements.forEach(function(element) {
+            element.setAttribute('style', 'color: rgb(237, 237, 237)');
+        });
+
+        var whiteText = ['.header-dropdown'];
+
+        var filteredWhiteText = document.querySelectorAll(whiteText);
+
+        // Change the text colors of special elements
+        filteredWhiteText.forEach(function(element) {
+            element.style.color = 'rgb(237, 237, 237)';
+        });
+
+        var activeButtons = document.querySelectorAll('.module-header__btn.is-active');
+
+        // Loop through each element and set the text color
+        activeButtons.forEach(function(button) {
+            button.style.color = 'rgb(237, 237, 237)';
+        });
     }
 })();
